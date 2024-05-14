@@ -4,7 +4,7 @@ const app = express()
 const port = 3000;
 
 const DatabaseObject = new database();
-await DatabaseObject.Init();
+DatabaseObject.Init();
 
 app.get('/users', async (req, res) => {
     await DatabaseObject.ExecuteQuery("SELECT * FROM [Users]")
@@ -25,7 +25,7 @@ app.post('/users', async (req, res) => {
       postBody
     );
 
-    res.send('Hello World!');
+    res.send(postBody);
 });
 
 app.listen(port, () => {
