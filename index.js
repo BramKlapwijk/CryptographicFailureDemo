@@ -7,11 +7,11 @@ const DatabaseObject = new database();
 DatabaseObject.Init();
 
 app.get('/users', async (req, res) => {
-    await DatabaseObject.ExecuteQuery("SELECT * FROM [Users]")
-    res.send('Hello World!');
+    let data = await DatabaseObject.ExecuteQuery("SELECT * FROM [Users]")
+    res.send(data);
 });
 
-app.post('/users', async (req, res) => {
+app.get('/users/insert', async (req, res) => {
     const postBody = {
       Password: req.query.password,
       Email: req.query.email,
@@ -21,7 +21,7 @@ app.post('/users', async (req, res) => {
     };
 
     await DatabaseObject.ExecuteQuery(
-      "INSERT INTO [Users] (Password, Email, CreditcardNumber, CreditcardPin, PasswordHint) VALUES ?",
+      "INSERT INTO [Users] (Password, Email, CreditcardNumber, CreditcardPin, PasswordHint) VALUES (@Password, @Email, @CreditcardNumber, @CreditcardPin, @PasswordHint)",
       postBody
     );
 

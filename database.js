@@ -2,28 +2,23 @@ const sql = require('mssql');
 
 class Database {
     async Init() {
-        this.config = {
-            server: 'localhost',
-            authentication: {
-              type: 'default',
-              options: {
-                userName: 'sa',
-                password: 'Strong!Password'
-                }
-            }
-        }
         try {
             await sql.connect('Server=127.0.0.1;Database=CryptographicFailureDemo;TrustServerCertificate=True;User Id=sa;Password=Strong!Password');
         } catch (err) {
             console.error(err);
         }
     }
-    async ExecuteQuery(query, body) {
-        const request = new sql.Request()
-        request.input('myval', sql.VarChar, '-- commented')
+    async ExecuteQuery(query, body = null) {
+        const request = new sql.Request();
+        if (body) {
+            Object.keys(body).forEach(key => {
+                console.log(key, body[key]);
+                request.input(key, sql.VarChar, body[key]);
+            });
+        }
         let data = await request.query(query, body);
         console.log(data);
-        return data;
+        return data.recordset;
     }
 }
 

@@ -1,6 +1,8 @@
-create Database CryptographicFailureDemo;
+create Database [CryptographicFailureDemo];
 
-use CryptographicFailureDemo;
+go
+
+use [CryptographicFailureDemo];
 
 create table Users
 (
